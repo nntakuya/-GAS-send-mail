@@ -1,5 +1,12 @@
 // Compiled using ts2gas 3.6.3 (TypeScript 3.9.7)
 function main() {
+  const isContinue = Browser.msgBox('確認', 'メールを送信しますか？', Browser.Buttons.OK_CANCEL);
+
+  if (isContinue == 'cancel') {
+    Browser.msgBox('キャンセルしました');
+    return;
+  }
+
   const addresses = getAdresses();
   const title = getTitle();
   const content = getContent();
@@ -7,6 +14,12 @@ function main() {
   addresses.forEach(address => {
     sender(address[0], title, content);
   });
+
+  Browser.msgBox(`${addresses.length}件のメール送信完了しました。`);
+}
+
+function confirm() {
+  const isContinue = Browser.msgBox('確認', 'メールを送信しますか？', Browser.Buttons.OK_CANCEL);
 }
 
 function getAdresses() {
