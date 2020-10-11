@@ -7,12 +7,13 @@ function main() {
     return;
   }
 
+  const fromAddress = getFromAdress();
   const addresses = getAdresses();
   const title = getTitle();
   const content = getContent();
 
   addresses.forEach(address => {
-    sender(address[0], title, content);
+    sender(address[0], title, content, fromAddress);
   });
 
   Browser.msgBox(`${addresses.length}件のメール送信完了しました。`);
@@ -44,12 +45,12 @@ function getContent() {
   return templateSheet.getRange('C7').getValue();
 }
 
-// function getFromAdress() {
-//   const templateSheet = SpreadsheetApp.getActive().getSheetByName('メールテンプレート');
+function getFromAdress() {
+  const templateSheet = SpreadsheetApp.getActive().getSheetByName('メールテンプレート');
 
-//   return templateSheet.getRange('C2').getValue();
-// }
+  return templateSheet.getRange('C5').getValue();
+}
 
-function sender(address: String, title: String, body: String) {
-  GmailApp.sendEmail(address, title, body);
+function sender(address: String, title: String, body: String, from: String) {
+  GmailApp.sendEmail(address, title, body, {from: from});
 }
